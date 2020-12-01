@@ -113,13 +113,13 @@ btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
 btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
 btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
 
-# progress buttons left
-prog_1L = Button(left_prog_frame, image=img_green_btn)
-prog_2L = Button(left_prog_frame, image=img_green_btn)
-prog_3L = Button(left_prog_frame, image=img_green_btn)
-prog_4L = Button(left_prog_frame, image=img_green_btn)
-prog_5L = Button(left_prog_frame, image=img_green_btn)
-# progress buttons right
+# progress labels left
+prog_1L = Label(left_prog_frame, image=img_green_btn, borderwidth=0)
+prog_2L = Label(left_prog_frame, image=img_green_btn, borderwidth=0)
+prog_3L = Label(left_prog_frame, image=img_green_btn, borderwidth=0)
+prog_4L = Label(left_prog_frame, image=img_green_btn, borderwidth=0)
+prog_5L = Label(left_prog_frame, image=img_green_btn, borderwidth=0)
+# progress labels right
 
 # DISPLAYING WIDGETS
 # frames
@@ -149,7 +149,7 @@ btn_6.grid(row=1, column=2)
 btn_7.grid(row=2, column=0)
 btn_8.grid(row=2, column=1)
 btn_9.grid(row=2, column=2)
-# left frame - progress buttons
+# left frame - progress labels
 prog_1L.grid(row=0,column=0)
 prog_2L.grid(row=0,column=1)
 prog_3L.grid(row=0,column=2)
