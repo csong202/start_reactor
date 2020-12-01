@@ -73,20 +73,25 @@ root.resizable(False, False)
 
 # -------CREATING WIDGETS-----
 # frames
-left_frame = LabelFrame(root, text="", padx=5, pady=5, bg="#A3A3A3")
+left_frame = LabelFrame(root, text="", padx=5, pady=5, bg="#ACACAC")
+left_prog_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="#ACACAC")
 solution_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="black")
-right_frame = LabelFrame(root, text="", padx=5, pady=5, bg="#A3A3A3")
-input_frame = LabelFrame(right_frame, text="", padx=5, pady=5, bg="#A3A3A3")
+right_frame = LabelFrame(root, text="", padx=5, pady=5, bg="#ACACAC")
+right_prog_frame = LabelFrame(right_frame, text="", padx=5, pady=5, bg="#ACACAC")
+input_frame = LabelFrame(right_frame, text="", padx=5, pady=5, bg="#ACACAC")
 # images
 img_black = Image.open("images/black-square.jpg")
 img_blue = Image.open("images/blue-square.jpg")
 img_input_btn = Image.open("images/input_btn.jpg")
+img_green_btn = Image.open("images/green-btn.jpg")
 img_black = img_black.resize((100,100), Image.ANTIALIAS)
 img_blue = img_blue.resize((100,100), Image.ANTIALIAS)
 img_input_btn = img_input_btn.resize((90,90), Image.ANTIALIAS)
+img_green_btn = img_green_btn.resize((20,20), Image.ANTIALIAS)
 img_black = ImageTk.PhotoImage(img_black)
 img_blue = ImageTk.PhotoImage(img_blue)
 img_input_btn = ImageTk.PhotoImage(img_input_btn)
+img_green_btn = ImageTk.PhotoImage(img_green_btn)
 # labels for displaying pattern
 lbl_1 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
@@ -108,11 +113,21 @@ btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
 btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
 btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
 
+# progress buttons left
+prog_1L = Button(left_prog_frame, image=img_green_btn)
+prog_2L = Button(left_prog_frame, image=img_green_btn)
+prog_3L = Button(left_prog_frame, image=img_green_btn)
+prog_4L = Button(left_prog_frame, image=img_green_btn)
+prog_5L = Button(left_prog_frame, image=img_green_btn)
+# progress buttons right
+
 # DISPLAYING WIDGETS
 # frames
 left_frame.grid(row=0, column=0)
+left_prog_frame.grid(row=1, column=0)
 solution_frame.grid(row=2, column=0)
 right_frame.grid(row=0, column=1)
+right_prog_frame.grid(row=1, column=1)
 input_frame.grid(row=2, column=1)
 # solution frame - labels
 lbl_1.grid(row=0, column=0)
@@ -134,6 +149,12 @@ btn_6.grid(row=1, column=2)
 btn_7.grid(row=2, column=0)
 btn_8.grid(row=2, column=1)
 btn_9.grid(row=2, column=2)
+# left frame - progress buttons
+prog_1L.grid(row=0,column=0)
+prog_2L.grid(row=0,column=1)
+prog_3L.grid(row=0,column=2)
+prog_4L.grid(row=0,column=3)
+prog_5L.grid(row=0,column=4)
 
 # ------MAIN-------
 # run gui
@@ -143,23 +164,5 @@ root.mainloop()
 choose_sequence()
 
 # get user response
-# looping through each list in correct_sequence
-# for n in range(0,5):
-#
-#     display_solution(n)
-#
-#     # ask user to input where it was
-#     for j in range(0,n):
-#         print(f"n = {n}")
-#
-#         user_guess_row = int(input("Please enter a row: "))
-#         user_guess_col = int(input("Please enter a column: "))
-#
-#         user_guess = [user_guess_row, user_guess_col]
-#         print(f"user_guess = {user_guess}, correct_sequence[j] = {correct_sequence[j]}")
-#
-#         if user_guess == correct_sequence[j]:
-#             print("You are correct!")
-#         else:
-#             print("incorrect")
+
 
