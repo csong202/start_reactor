@@ -1,10 +1,11 @@
 import random
+import threading
 from tkinter import *
 from PIL import ImageTk, Image  # python image library, still have to install Pillow
 
 '''
 CURRENT PROBLEMS
-- solutions do not appear in the order they were generated in
+- can't seem to run python functions and gui at same time
 '''
 
 # function to choose random positions 
@@ -24,20 +25,99 @@ def display_solution(n):
     '''
     n = current iteration
     '''
-    # for i in range(0,5):
-    #     curr_line = lines_correct[correct_sequence[i][0]*3+2]
-    #     lines_correct[correct_sequence[i][0]*3+2]=curr_line[:correct_sequence[i][1]*6+2] + "###" + curr_line[correct_sequence[i][1]*6+5:]
-
-    #     # print solution
-    #     for line in range(0,14):
-    #         print(lines_correct[line])
     for i in range(n):
+        global lbl_1
+        global lbl_2
+        global lbl_3
+        global lbl_4
+        global lbl_5
+        global lbl_6
+        global lbl_7
+        global lbl_8
+        global lbl_9
         '''
         if statement to see which button in correct_sequence is being shown
-        use timer to set picture to img_blue for a second
+        use timer to set picture to img_blue
         then back to img_black
         '''
-        pass
+        x = correct_sequence[i][0]
+        y = correct_sequence[i][1]
+
+        if x == 0 and y == 0:
+            lbl_1 = Label(solution_frame, image=img_blue, borderwidth=0)
+        elif x == 1 and y == 0:
+            lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
+        elif x == 2 and y == 0:
+            lbl_3 = Label(solution_frame, image=img_blue, borderwidth=0)
+        elif x == 0 and y == 1:
+            lbl_4 = Label(solution_frame, image=img_blue, borderwidth=0)
+        elif x == 1 and y == 1:
+            lbl_5 = Label(solution_frame, image=img_blue, borderwidth=0)
+        elif x == 2 and y == 1:
+            lbl_6 = Label(solution_frame, image=img_blue, borderwidth=0)
+        elif x == 0 and y == 2:
+            lbl_7 = Label(solution_frame, image=img_blue, borderwidth=0)
+        elif x == 1 and y == 2:
+            lbl_8 = Label(solution_frame, image=img_blue, borderwidth=0)
+        elif x == 2 and y == 2:
+            lbl_9 = Label(solution_frame, image=img_blue, borderwidth=0)
+
+        lbl_1.grid(row=0, column=0)
+        lbl_2.grid(row=0, column=1)
+        lbl_3.grid(row=0, column=2)
+        lbl_4.grid(row=1, column=0)
+        lbl_5.grid(row=1, column=1)
+        lbl_6.grid(row=1, column=2)
+        lbl_7.grid(row=2, column=0)
+        lbl_8.grid(row=2, column=1)
+        lbl_9.grid(row=2, column=2)
+
+        timer = threading.Timer(2.0, hide_sol(x,y))
+        timer.start()
+
+def hide_sol(x,y):
+    '''
+    if statement to make on of the lbl's images
+    turn from blue to black
+    '''
+    global lbl_1
+    global lbl_2
+    global lbl_3
+    global lbl_4
+    global lbl_5
+    global lbl_6
+    global lbl_7
+    global lbl_8
+    global lbl_9
+
+    if x == 0 and y == 0:
+        lbl_1 = Label(solution_frame, image=img_black, borderwidth=0)
+    elif x == 1 and y == 0:
+        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+    elif x == 2 and y == 0:
+        lbl_3 = Label(solution_frame, image=img_black, borderwidth=0)
+    elif x == 0 and y == 1:
+        lbl_4 = Label(solution_frame, image=img_black, borderwidth=0)
+    elif x == 1 and y == 1:
+        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+    elif x == 2 and y == 1:
+        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+    elif x == 0 and y == 2:
+        lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
+    elif x == 1 and y == 2:
+        lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
+    elif x == 2 and y == 2:
+        lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
+
+    lbl_1.grid(row=0, column=0)
+    lbl_2.grid(row=0, column=1)
+    lbl_3.grid(row=0, column=2)
+    lbl_4.grid(row=1, column=0)
+    lbl_5.grid(row=1, column=1)
+    lbl_6.grid(row=1, column=2)
+    lbl_7.grid(row=2, column=0)
+    lbl_8.grid(row=2, column=1)
+    lbl_9.grid(row=2, column=2)
 
 def display_user_reponse():
     # print grid with 1 filled square   
@@ -73,12 +153,12 @@ root.resizable(False, False)
 
 # -------CREATING WIDGETS-----
 # frames
-left_frame = LabelFrame(root, text="", padx=5, pady=5, bg="#ACACAC")
+left_frame = LabelFrame(root, text="", padx=15, pady=15, bg="#ACACAC")
 left_prog_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="#ACACAC", relief=FLAT)
-solution_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="black")
-right_frame = LabelFrame(root, text="", padx=5, pady=5, bg="#ACACAC")
+solution_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="black", relief=FLAT)
+right_frame = LabelFrame(root, text="", padx=15, pady=15, bg="#ACACAC")
 right_prog_frame = LabelFrame(right_frame, text="", padx=5, pady=5, bg="#ACACAC", relief=FLAT)
-input_frame = LabelFrame(right_frame, text="", padx=5, pady=5, bg="#ACACAC")
+input_frame = LabelFrame(right_frame, text="", padx=5, pady=5, bg="#ACACAC", relief=FLAT)
 # images
 img_black = Image.open("images/black-square.jpg")
 img_blue = Image.open("images/blue-square.jpg")
@@ -175,6 +255,9 @@ prog_4R.grid(row=0,column=3)
 prog_5R.grid(row=0,column=4)
 lbl_emptyR.grid(row=1,column=0)
 
+
+# CREATING 2D ARRAYS TO STORE WIDGETS
+
 # ------MAIN-------
 # run gui
 root.mainloop()
@@ -182,6 +265,8 @@ root.mainloop()
 # generate solution
 choose_sequence()
 
-# get user response
+for turn in range(5):
+    display_solution(turn)
+    # get user response
 
 
