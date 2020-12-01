@@ -1,11 +1,13 @@
 import random
 import threading
+import time
 from tkinter import *
 from PIL import ImageTk, Image  # python image library, still have to install Pillow
 
 '''
 CURRENT PROBLEMS
-- can't seem to run python functions and gui at same time
+- display_solutions() doesnt work
+- blue isnt disappearing
 '''
 
 # function to choose random positions 
@@ -21,10 +23,13 @@ def choose_sequence():
 
     print(f"\n{correct_sequence}")
 
+    get_user_ans()
+
 def display_solution(n):
     '''
     n = current iteration
     '''
+    print(f"\nn = {n}")
     for i in range(n):
         global lbl_1
         global lbl_2
@@ -40,8 +45,9 @@ def display_solution(n):
         use timer to set picture to img_blue
         then back to img_black
         '''
-        x = correct_sequence[i][0]
-        y = correct_sequence[i][1]
+        x = correct_sequence[i][1]
+        y = correct_sequence[i][0]
+        print(f"x = {x}, y = {y}")
 
         if x == 0 and y == 0:
             lbl_1 = Label(solution_frame, image=img_blue, borderwidth=0)
@@ -80,6 +86,7 @@ def hide_sol(x,y):
     if statement to make on of the lbl's images
     turn from blue to black
     '''
+    print("hiding blue")
     global lbl_1
     global lbl_2
     global lbl_3
@@ -119,8 +126,12 @@ def hide_sol(x,y):
     lbl_8.grid(row=2, column=1)
     lbl_9.grid(row=2, column=2)
 
+def get_user_ans():
+    for turn in range(5):
+        display_solution(turn+1)
+        # get user response
+
 def display_user_reponse():
-    # print grid with 1 filled square   
     pass
 
 def check_user_reponse():
@@ -152,6 +163,7 @@ root.geometry("1100x600")
 root.resizable(False, False)
 
 # -------CREATING WIDGETS-----
+btn_start = Button(root, text="START", padx=12, pady=12, bg="#ACACAC", fg="black", command=choose_sequence)
 # frames
 left_frame = LabelFrame(root, text="", padx=15, pady=15, bg="#ACACAC")
 left_prog_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="#ACACAC", relief=FLAT)
@@ -212,6 +224,7 @@ prog_5R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
 lbl_emptyR = Label(right_prog_frame, text="", bg="#ACACAC")
 
 # DISPLAYING WIDGETS
+btn_start.grid(row=5,column=0)
 # frames
 left_frame.grid(row=0, column=0)
 left_prog_frame.grid(row=1, column=0)
@@ -256,17 +269,7 @@ prog_5R.grid(row=0,column=4)
 lbl_emptyR.grid(row=1,column=0)
 
 
-# CREATING 2D ARRAYS TO STORE WIDGETS
-
 # ------MAIN-------
 # run gui
 root.mainloop()
-
-# generate solution
-choose_sequence()
-
-for turn in range(5):
-    display_solution(turn)
-    # get user response
-
 
