@@ -1,0 +1,8 @@
+OVERALL IDEA
+- like the reactor task in among us
+- memorization based game
+- upload to github and put on resume
+
+IMPLEMENTATION
+- use classes?
+- maybe make GUI??
