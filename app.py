@@ -40,6 +40,9 @@ def display_solution(n):
         global lbl_7
         global lbl_8
         global lbl_9
+
+        global x
+        global y
         '''
         if statement to see which button in correct_sequence is being shown
         use timer to set picture to img_blue
@@ -78,10 +81,13 @@ def display_solution(n):
         lbl_8.grid(row=2, column=1)
         lbl_9.grid(row=2, column=2)
 
-        timer = threading.Timer(2.0, hide_sol(x,y))
+        timer = threading.Timer(2.0, hide_sol)
         timer.start()
 
-def hide_sol(x,y):
+        # prompt user for an answer
+        user_response(i)
+
+def hide_sol():
     '''
     if statement to make on of the lbl's images
     turn from blue to black
@@ -134,7 +140,8 @@ def get_user_ans():
 def display_user_reponse():
     pass
 
-def check_user_reponse():
+def user_response(turn):
+    # 1 <= turn <= 5
     pass
 
 # global variables
@@ -152,6 +159,7 @@ arr_response = [
     [0,0,0,0]
 ]
 correct_sequence = [[],[],[],[],[]]
+x = 0; y = 0
 
 ######################################
 # SET UP TKINTER
