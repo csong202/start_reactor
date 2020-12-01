@@ -40,7 +40,6 @@ def display_solution(n):
         global lbl_7
         global lbl_8
         global lbl_9
-
         global x
         global y
         '''
@@ -85,7 +84,7 @@ def display_solution(n):
         timer.start()
 
         # prompt user for an answer
-        user_response(i)
+        get_user_response(i)
 
 def hide_sol():
     '''
@@ -116,11 +115,11 @@ def hide_sol():
     elif x == 2 and y == 1:
         lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
     elif x == 0 and y == 2:
-        lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
+        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
     elif x == 1 and y == 2:
-        lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
+        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
     elif x == 2 and y == 2:
-        lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
+        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
 
     lbl_1.grid(row=0, column=0)
     lbl_2.grid(row=0, column=1)
@@ -137,14 +136,15 @@ def get_user_ans():
         display_solution(turn+1)
         # get user response
 
-def display_user_reponse():
-    pass
-
-def user_response(turn):
+def get_user_response(turn):
     # 1 <= turn <= 5
+    '''
+    - undisable input_frame
+    - user clicks button
+    '''
     pass
 
-# global variables
+# ------ GLOBAL VARIABLES ---------
 
 arr_correct = [
     [0,0,0,0],
@@ -170,7 +170,7 @@ root.iconbitmap('icons/os_linux_icon.ico')
 root.geometry("1100x600")
 root.resizable(False, False)
 
-# -------CREATING WIDGETS-----
+# ------- CREATING WIDGETS -----
 btn_start = Button(root, text="START", padx=12, pady=12, bg="#ACACAC", fg="black", command=choose_sequence)
 # frames
 left_frame = LabelFrame(root, text="", padx=15, pady=15, bg="#ACACAC")
@@ -206,15 +206,15 @@ lbl_7 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_8 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_9 = Label(solution_frame, image=img_black, borderwidth=0)
 # buttons for entering solution
-btn_1 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
-btn_2 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
-btn_3 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
-btn_4 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
-btn_5 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
-btn_6 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
-btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
-btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
-btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT)
+btn_1 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_2 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_3 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_4 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_5 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_6 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
 
 # progress labels left
 prog_1L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
@@ -231,7 +231,7 @@ prog_4R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
 prog_5R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
 lbl_emptyR = Label(right_prog_frame, text="", bg="#ACACAC")
 
-# DISPLAYING WIDGETS
+# -------- DISPLAYING WIDGETS --------
 btn_start.grid(row=5,column=0)
 # frames
 left_frame.grid(row=0, column=0)
