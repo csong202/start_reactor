@@ -91,7 +91,7 @@ def hide_sol():
     if statement to make on of the lbl's images
     turn from blue to black
     '''
-    print("hiding blue")
+    # print("hiding blue")
     global lbl_1
     global lbl_2
     global lbl_3
@@ -101,6 +101,8 @@ def hide_sol():
     global lbl_7
     global lbl_8
     global lbl_9
+    global x
+    global y
 
     if x == 0 and y == 0:
         lbl_1 = Label(solution_frame, image=img_black, borderwidth=0)
@@ -111,15 +113,15 @@ def hide_sol():
     elif x == 0 and y == 1:
         lbl_4 = Label(solution_frame, image=img_black, borderwidth=0)
     elif x == 1 and y == 1:
-        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+        lbl_5 = Label(solution_frame, image=img_black, borderwidth=0)
     elif x == 2 and y == 1:
-        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+        lbl_6 = Label(solution_frame, image=img_black, borderwidth=0)
     elif x == 0 and y == 2:
-        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+        lbl_7 = Label(solution_frame, image=img_black, borderwidth=0)
     elif x == 1 and y == 2:
-        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+        lbl_8 = Label(solution_frame, image=img_black, borderwidth=0)
     elif x == 2 and y == 2:
-        lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+        lbl_9 = Label(solution_frame, image=img_black, borderwidth=0)
 
     lbl_1.grid(row=0, column=0)
     lbl_2.grid(row=0, column=1)
@@ -144,6 +146,9 @@ def get_user_response(turn):
     '''
     pass
 
+def check_answer():
+    pass
+
 # ------ GLOBAL VARIABLES ---------
 
 arr_correct = [
@@ -159,7 +164,8 @@ arr_response = [
     [0,0,0,0]
 ]
 correct_sequence = [[],[],[],[],[]]
-x = 0; y = 0
+x = 0
+y = 0
 
 ######################################
 # SET UP TKINTER
