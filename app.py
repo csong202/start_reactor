@@ -28,10 +28,10 @@ def choose_sequence():
 
 def display_solution(n):
     '''
-    n = current iteration
+    n = current iteration, 1 <= n < 6
     '''
     print(f"\nn = {n}")
-    for i in range(n):
+    for i in range(n):  # 0 <= n < 5
         global lbl_1
         global lbl_2
         global lbl_3
@@ -52,66 +52,80 @@ def display_solution(n):
         y = correct_sequence[i][0]
         print(f"x = {x}, y = {y}")
 
-        if x == 0 and y == 0:
-            lbl_1 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_1.grid(row=0, column=0)
-        elif x == 1 and y == 0:
-            lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_2.grid(row=0, column=1)
-        elif x == 2 and y == 0:
-            lbl_3 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_3.grid(row=0, column=2)
-        elif x == 0 and y == 1:
-            lbl_4 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_4.grid(row=1, column=0)
-        elif x == 1 and y == 1:
-            lbl_5 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_5.grid(row=1, column=1)
-        elif x == 2 and y == 1:
-            lbl_6 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_6.grid(row=1, column=2)
-        elif x == 0 and y == 2:
-            lbl_7 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_7.grid(row=2, column=0)
-        elif x == 1 and y == 2:
-            lbl_8 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_8.grid(row=2, column=1)
-        elif x == 2 and y == 2:
-            lbl_9 = Label(solution_frame, image=img_blue, borderwidth=0)
-            lbl_9.grid(row=2, column=2)
+        curr_sqr_pos = img_positions.index([y,x]) # 0 <= < 9
+        print(f"curr_sqr = {curr_sqr_pos}")
+
+        curr_sqr = lbl_list[curr_sqr_pos]
+        curr_sqr.grid_forget()
+        curr_sqr = Label(solution_frame, image=img_blue, borderwidth=0)
+        curr_sqr.grid(row=img_positions[curr_sqr_pos][0], column=img_positions[curr_sqr_pos][1])
 
         time.sleep(1)
 
-        if x == 0 and y == 0:
-            lbl_1 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_1.grid(row=0, column=0)
-        elif x == 1 and y == 0:
-            lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_2.grid(row=0, column=1)
-        elif x == 2 and y == 0:
-            lbl_3 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_3.grid(row=0, column=2)
-        elif x == 0 and y == 1:
-            lbl_4 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_4.grid(row=1, column=0)
-        elif x == 1 and y == 1:
-            lbl_5 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_5.grid(row=1, column=1)
-        elif x == 2 and y == 1:
-            lbl_6 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_6.grid(row=1, column=2)
-        elif x == 0 and y == 2:
-            lbl_7 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_7.grid(row=2, column=0)
-        elif x == 1 and y == 2:
-            lbl_8 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_8.grid(row=2, column=1)
-        elif x == 2 and y == 2:
-            lbl_9 = Label(solution_frame, image=img_black, borderwidth=0)
-            lbl_9.grid(row=2, column=2)
+        # if x == 0 and y == 0:
+        #     lbl_1 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_1.grid(row=0, column=0)
+        # elif x == 1 and y == 0:
+        #     lbl_2 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_2.grid(row=0, column=1)
+        # elif x == 2 and y == 0:
+        #     lbl_3 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_3.grid(row=0, column=2)
+        # elif x == 0 and y == 1:
+        #     lbl_4 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_4.grid(row=1, column=0)
+        # elif x == 1 and y == 1:
+        #     lbl_5 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_5.grid(row=1, column=1)
+        # elif x == 2 and y == 1:
+        #     lbl_6 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_6.grid(row=1, column=2)
+        # elif x == 0 and y == 2:
+        #     lbl_7 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_7.grid(row=2, column=0)
+        # elif x == 1 and y == 2:
+        #     lbl_8 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_8.grid(row=2, column=1)
+        # elif x == 2 and y == 2:
+        #     lbl_9 = Label(solution_frame, image=img_blue, borderwidth=0)
+        #     lbl_9.grid(row=2, column=2)
+        #
+        #
+        # time.sleep(1)
+        #
+        # if x == 0 and y == 0:
+        #     lbl_1 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_1.grid(row=0, column=0)
+        # elif x == 1 and y == 0:
+        #     lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_2.grid(row=0, column=1)
+        # elif x == 2 and y == 0:
+        #     lbl_3 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_3.grid(row=0, column=2)
+        # elif x == 0 and y == 1:
+        #     lbl_4 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_4.grid(row=1, column=0)
+        # elif x == 1 and y == 1:
+        #     lbl_5 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_5.grid(row=1, column=1)
+        # elif x == 2 and y == 1:
+        #     lbl_6 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_6.grid(row=1, column=2)
+        # elif x == 0 and y == 2:
+        #     lbl_7 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_7.grid(row=2, column=0)
+        # elif x == 1 and y == 2:
+        #     lbl_8 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_8.grid(row=2, column=1)
+        # elif x == 2 and y == 2:
+        #     lbl_9 = Label(solution_frame, image=img_black, borderwidth=0)
+        #     lbl_9.grid(row=2, column=2)
 
         # prompt user for an answer
         get_user_response(i)
+
+def show_curr_sqr(x,y):
+    pass
 
 def get_user_ans():
     for turn in range(5):
@@ -196,7 +210,7 @@ lbl_6 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_7 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_8 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_9 = Label(solution_frame, image=img_black, borderwidth=0)
-lbl_list = [lbl_1, lbl_2, lbl_3, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9]
+lbl_list = [lbl_1, lbl_2, lbl_3, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9]  # ***
 # buttons for entering solution
 btn_1 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
 btn_2 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
@@ -207,7 +221,7 @@ btn_6 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, com
 btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
 btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
 btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_list = [btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9]
+btn_list = [btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9]  # ***
 # progress labels left
 prog_1L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
 prog_2L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
