@@ -8,6 +8,7 @@ from PIL import ImageTk, Image  # python image library, still have to install Pi
 CURRENT PROBLEMS
 - blue only shows after for loop is finished
 - enable(childList) isnt working (https://stackoverflow.com/questions/24942760/is-there-a-way-to-gray-out-disable-a-tkinter-frame)
+- moves on to next before user can answer
 
 TO DO
 '''
@@ -51,25 +52,13 @@ def display_solution(n):
         time.sleep(1)
         # show_curr_sqr(x,y,img_black)
 
-    # prompt user for an answer
-    get_user_ans(n)
-
 def show_curr_sqr(x,y,img):
     '''
     (int, int, image) -> None
     '''
-    global lbl_1
-    global lbl_2
-    global lbl_3
-    global lbl_4
-    global lbl_5
-    global lbl_6
-    global lbl_7
-    global lbl_8
-    global lbl_9
 
     curr_sqr_pos = img_positions.index([y, x])  # 0 <= < 9
-    if img == img_blue: print(f"curr_sqr_pos = {curr_sqr_pos}\trange[0,9)")
+    if img == img_blue: print(f"curr_sqr_pos = {curr_sqr_pos}")
 
     curr_sqr = lbl_list[curr_sqr_pos]
     curr_sqr.grid_forget()
@@ -81,19 +70,46 @@ def play_game():
         # display solution
         display_solution(turn)
 
-        # get user response
+        # prompt user for an answer
+        get_user_ans(turn)
 
-def get_user_ans(count):
-    # 0 <= count < 5
+def get_user_ans(n):
     '''
+    n = current iteration, 1 <= n < 6
     - undisable input_frame
     - user clicks button
     '''
+
+    # user guesses
+    for i in range(n):
+        prompt_response()
+        if answered:
+            if correct_sequence[i] == user_ans:
+                print("correct!")
+            else:
+                print(f"WRONG! correct position was [row, col]: {correct_sequence[1]}")
+
+def prompt_response():
     # enable input frame
     # enable(input_frame.winfo_children())
-
-def check_answer():
     pass
+
+def check_ans(btn_num):
+    '''
+    btn_num range[1,9]
+    btn_pos range[0,8]
+    '''
+    global user_ans
+    global answered
+    btn_pos = btn_num - 1
+    user_ans = [img_positions[btn_pos][0], img_positions[btn_pos][1]]
+    # arr_response[img_positions[btn_pos][0]][img_positions[btn_pos][1]] = 1
+
+    # disable input frame
+    # for child in input_frame.winfo_children():
+    #     child.configure(state="disable")
+
+    answered = True
 
 def enable(childList):
     for child in childList:
@@ -118,6 +134,11 @@ arr_response = [
 correct_sequence = [[],[],[],[],[]]
 x = 0
 y = 0
+correct_ans = []  # [row, col]
+user_ans = []  # [row, col]
+# curr_corr_seq = []
+# curr_user_seq = []
+answered = False
 
 ######################################
 # SET UP TKINTER
@@ -131,6 +152,7 @@ root.resizable(False, False)
 # ------- CREATING WIDGETS -----
 btn_start = Button(root, text="START", padx=12, pady=12, bg="#ACACAC", fg="black", command=choose_sequence)
 btn_exit = Button(root, text="QUIT", padx=12, pady=12, bg="#ACACAC", fg="black", command=root.quit)
+lbl_prompt = Label(root, text="", padx=12, pady=12)
 # frames
 left_frame = LabelFrame(root, text="", padx=15, pady=15, bg="#ACACAC")
 left_prog_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="#ACACAC", relief=FLAT)
@@ -166,15 +188,15 @@ lbl_8 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_9 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_list = [lbl_1, lbl_2, lbl_3, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9]  # ***
 # buttons for entering solution
-btn_1 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_2 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_3 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_4 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_5 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_6 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
-btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=check_answer)
+btn_1 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(1))
+btn_2 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(2))
+btn_3 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(3))
+btn_4 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(4))
+btn_5 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(5))
+btn_6 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(6))
+btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(7))
+btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(8))
+btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(9))
 btn_list = [btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9]  # ***
 # progress labels left
 prog_1L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
@@ -194,6 +216,7 @@ lbl_emptyR = Label(right_prog_frame, text="", bg="#ACACAC")
 # -------- DISPLAYING WIDGETS --------
 btn_start.grid(row=5, column=0)
 btn_exit.grid(row=5, column=1)
+lbl_prompt.grid(row=6, column=1)
 # frames
 left_frame.grid(row=0, column=0)
 left_prog_frame.grid(row=1, column=0)
