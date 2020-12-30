@@ -118,7 +118,6 @@ arr_response = [
 correct_sequence = [[],[],[],[],[]]
 x = 0
 y = 0
-sol_hidden = False
 
 ######################################
 # SET UP TKINTER
