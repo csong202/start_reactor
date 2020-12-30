@@ -7,6 +7,9 @@ from PIL import ImageTk, Image  # python image library, still have to install Pi
 '''
 CURRENT PROBLEMS
 - blue only shows after for loop is finished
+- enable(childList) isnt working (https://stackoverflow.com/questions/24942760/is-there-a-way-to-gray-out-disable-a-tkinter-frame)
+
+TO DO
 '''
 
 # function to choose random positions 
@@ -23,7 +26,7 @@ def choose_sequence():
 
     print(f"\n{correct_sequence}")
 
-    get_user_ans()
+    play_game()
 
 def display_solution(n):
     '''
@@ -31,15 +34,6 @@ def display_solution(n):
     '''
     print(f"\nn = {n}")
     for i in range(n):  # 0 <= i < 5
-        global lbl_1
-        global lbl_2
-        global lbl_3
-        global lbl_4
-        global lbl_5
-        global lbl_6
-        global lbl_7
-        global lbl_8
-        global lbl_9
         global x
         global y
         '''
@@ -47,17 +41,18 @@ def display_solution(n):
         use timer to set picture to img_blue
         then back to img_black
         '''
+
         x = correct_sequence[i][1]
         y = correct_sequence[i][0]
-        print(f"x = {x}, y = {y}")
+        print(f"i = {i}, x = {x}, y = {y}")
 
         show_curr_sqr(x,y,img_blue)
-        print("made image blue")
+        # print("made image blue")
         time.sleep(1)
         # show_curr_sqr(x,y,img_black)
 
-        # prompt user for an answer
-        get_user_response(i)
+    # prompt user for an answer
+    get_user_ans(n)
 
 def show_curr_sqr(x,y,img):
     '''
@@ -81,23 +76,28 @@ def show_curr_sqr(x,y,img):
     curr_sqr = Label(solution_frame, image=img, borderwidth=0)
     curr_sqr.grid(row=img_positions[curr_sqr_pos][0], column=img_positions[curr_sqr_pos][1])
 
-def get_user_ans():
+def play_game():
     for turn in range(1,6):
         # display solution
         display_solution(turn)
 
         # get user response
 
-def get_user_response(turn):
-    # 1 <= turn <= 5
+def get_user_ans(count):
+    # 0 <= count < 5
     '''
     - undisable input_frame
     - user clicks button
     '''
-    pass
+    # enable input frame
+    # enable(input_frame.winfo_children())
 
 def check_answer():
     pass
+
+def enable(childList):
+    for child in childList:
+        child.configure(state="enable")
 
 # ------ GLOBAL VARIABLES ---------
 img_positions = [  # [row, col]
@@ -106,16 +106,14 @@ img_positions = [  # [row, col]
     [2,0], [2,1], [2,2]
 ]
 arr_correct = [
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0]
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
 ]
 arr_response = [
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0],
-    [0,0,0,0]
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0]
 ]
 correct_sequence = [[],[],[],[],[]]
 x = 0
@@ -133,6 +131,7 @@ root.resizable(False, False)
 
 # ------- CREATING WIDGETS -----
 btn_start = Button(root, text="START", padx=12, pady=12, bg="#ACACAC", fg="black", command=choose_sequence)
+btn_exit = Button(root, text="QUIT", padx=12, pady=12, bg="#ACACAC", fg="black", command=root.quit)
 # frames
 left_frame = LabelFrame(root, text="", padx=15, pady=15, bg="#ACACAC")
 left_prog_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="#ACACAC", relief=FLAT)
@@ -194,7 +193,8 @@ prog_5R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
 lbl_emptyR = Label(right_prog_frame, text="", bg="#ACACAC")
 
 # -------- DISPLAYING WIDGETS --------
-btn_start.grid(row=5,column=0)
+btn_start.grid(row=5, column=0)
+btn_exit.grid(row=5, column=1)
 # frames
 left_frame.grid(row=0, column=0)
 left_prog_frame.grid(row=1, column=0)
@@ -240,6 +240,11 @@ lbl_emptyR.grid(row=1,column=0)
 
 
 # ------MAIN-------
+
+# disable input frame
+# for child in input_frame.winfo_children():
+#     child.configure(state="disable")
+
 # run gui
 root.mainloop()
 
