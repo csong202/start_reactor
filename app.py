@@ -56,6 +56,7 @@ def show_curr_sqr(x,y,img):
     '''
     (int, int, image) -> None
     '''
+    global lbl_1, lbl_2, lbl_4, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9
 
     curr_sqr_pos = img_positions.index([y, x])  # 0 <= < 9
     if img == img_blue: print(f"curr_sqr_pos = {curr_sqr_pos}")
@@ -83,16 +84,21 @@ def get_user_ans(n):
     # user guesses
     for i in range(n):
         prompt_response()
+        print(f"answered = {answered}")
         if answered:
             if correct_sequence[i] == user_ans:
-                print("correct!")
+                print("DING DING DING CORRECT!")
             else:
                 print(f"WRONG! correct position was [row, col]: {correct_sequence[1]}")
 
 def prompt_response():
-    # enable input frame
-    # enable(input_frame.winfo_children())
-    pass
+    while not answered:
+        lbl_prompt.configure(text="Please click a button")
+        lbl_prompt.update()
+        change_input_frame_state("normal")
+    change_input_frame_state("disable")
+    lbl_prompt.configure(text="Moving on...")
+    lbl_prompt.update()
 
 def check_ans(btn_num):
     '''
@@ -104,16 +110,13 @@ def check_ans(btn_num):
     btn_pos = btn_num - 1
     user_ans = [img_positions[btn_pos][0], img_positions[btn_pos][1]]
     # arr_response[img_positions[btn_pos][0]][img_positions[btn_pos][1]] = 1
-
-    # disable input frame
-    # for child in input_frame.winfo_children():
-    #     child.configure(state="disable")
-
     answered = True
 
-def enable(childList):
-    for child in childList:
-        child.configure(state="enable")
+def change_input_frame_state(new_state):
+    global btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9
+
+    for child in btn_list:
+        child.configure(state=new_state)
 
 # ------ GLOBAL VARIABLES ---------
 img_positions = [  # [row, col]
@@ -152,7 +155,7 @@ root.resizable(False, False)
 # ------- CREATING WIDGETS -----
 btn_start = Button(root, text="START", padx=12, pady=12, bg="#ACACAC", fg="black", command=choose_sequence)
 btn_exit = Button(root, text="QUIT", padx=12, pady=12, bg="#ACACAC", fg="black", command=root.quit)
-lbl_prompt = Label(root, text="", padx=12, pady=12)
+lbl_prompt = Label(root, text="Welcome!", padx=12, pady=12)
 # frames
 left_frame = LabelFrame(root, text="", padx=15, pady=15, bg="#ACACAC")
 left_prog_frame = LabelFrame(left_frame, text="", padx=5, pady=5, bg="#ACACAC", relief=FLAT)
@@ -186,7 +189,6 @@ lbl_6 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_7 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_8 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_9 = Label(solution_frame, image=img_black, borderwidth=0)
-lbl_list = [lbl_1, lbl_2, lbl_3, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9]  # ***
 # buttons for entering solution
 btn_1 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(1))
 btn_2 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(2))
@@ -197,7 +199,6 @@ btn_6 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, com
 btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(7))
 btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(8))
 btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(9))
-btn_list = [btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9]  # ***
 # progress labels left
 prog_1L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
 prog_2L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
@@ -212,6 +213,10 @@ prog_3R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
 prog_4R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
 prog_5R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
 lbl_emptyR = Label(right_prog_frame, text="", bg="#ACACAC")
+
+# more global variables
+lbl_list = [lbl_1, lbl_2, lbl_3, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9]
+btn_list = [btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9]
 
 # -------- DISPLAYING WIDGETS --------
 btn_start.grid(row=5, column=0)
@@ -264,8 +269,7 @@ lbl_emptyR.grid(row=1,column=0)
 # ------MAIN-------
 
 # disable input frame
-# for child in input_frame.winfo_children():
-#     child.configure(state="disable")
+change_input_frame_state("disable")
 
 # run gui
 root.mainloop()
