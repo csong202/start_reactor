@@ -2,15 +2,16 @@ import random
 import threading
 import time
 from tkinter import *
-from PIL import ImageTk, Image  # python image library, still have to install Pillow
+from PIL import ImageTk, Image
 
 '''
 CURRENT PROBLEMS
-- blue only shows after for loop is finished
-- enable(childList) isnt working (https://stackoverflow.com/questions/24942760/is-there-a-way-to-gray-out-disable-a-tkinter-frame)
-- moves on to next before user can answer
+- doesnt re display blue squares on next turn
+- cant quit after while play_game is running
 
 TO DO
+- restart game if user is wrong (same sequence??)
+- blue squares flash red when player clicks incorrect button
 '''
 
 # function to choose random positions 
@@ -49,8 +50,8 @@ def display_solution(n):
 
         show_curr_sqr(x,y,img_blue)
         # print("made image blue")
-        time.sleep(1)
-        # show_curr_sqr(x,y,img_black)
+        time.sleep(0.7)
+        show_curr_sqr(x,y,img_black)
 
 def show_curr_sqr(x,y,img):
     '''
@@ -80,16 +81,16 @@ def get_user_ans(n):
     - undisable input_frame
     - user clicks button
     '''
+    global answered
 
     # user guesses
     for i in range(n):
         prompt_response()
-        print(f"answered = {answered}")
-        if answered:
-            if correct_sequence[i] == user_ans:
-                print("DING DING DING CORRECT!")
-            else:
-                print(f"WRONG! correct position was [row, col]: {correct_sequence[1]}")
+        if correct_sequence[i] == user_ans:
+            print("DING DING DING CORRECT!")
+        else:
+            print(f"WRONG! correct position was [row, col]: {correct_sequence[1]}")
+        answered = False
 
 def prompt_response():
     while not answered:
@@ -117,6 +118,10 @@ def change_input_frame_state(new_state):
 
     for child in btn_list:
         child.configure(state=new_state)
+
+def quit_game():
+    btn_start.configure(state="disable")
+    root.quit()
 
 # ------ GLOBAL VARIABLES ---------
 img_positions = [  # [row, col]
@@ -154,7 +159,7 @@ root.resizable(False, False)
 
 # ------- CREATING WIDGETS -----
 btn_start = Button(root, text="START", padx=12, pady=12, bg="#ACACAC", fg="black", command=choose_sequence)
-btn_exit = Button(root, text="QUIT", padx=12, pady=12, bg="#ACACAC", fg="black", command=root.quit)
+btn_exit = Button(root, text="QUIT", padx=12, pady=12, bg="#ACACAC", fg="black", command=quit_game)
 lbl_prompt = Label(root, text="Welcome!", padx=12, pady=12)
 # frames
 left_frame = LabelFrame(root, text="", padx=15, pady=15, bg="#ACACAC")
