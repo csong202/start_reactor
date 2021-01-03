@@ -6,12 +6,14 @@ from PIL import ImageTk, Image
 
 '''
 CURRENT PROBLEMS
+- doesn't show blue square for long enough
 - doesnt re display blue squares on next turn
 - cant quit after while play_game is running
 
 TO DO
 - restart game if user is wrong (same sequence??)
 - blue squares flash red when player clicks incorrect button
+- restart game if user hits start (new sequence)
 '''
 
 # function to choose random positions 
@@ -50,8 +52,8 @@ def display_solution(n):
 
         show_curr_sqr(x,y,img_blue)
         # print("made image blue")
-        time.sleep(0.7)
-        show_curr_sqr(x,y,img_black)
+        time.sleep(1)
+        # show_curr_sqr(x,y,img_black)
 
 def show_curr_sqr(x,y,img):
     '''
@@ -60,7 +62,7 @@ def show_curr_sqr(x,y,img):
     global lbl_1, lbl_2, lbl_4, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9
 
     curr_sqr_pos = img_positions.index([y, x])  # 0 <= < 9
-    if img == img_blue: print(f"curr_sqr_pos = {curr_sqr_pos}")
+    # if img == img_blue: print(f"curr_sqr_pos = {curr_sqr_pos}")
 
     curr_sqr = lbl_list[curr_sqr_pos]
     curr_sqr.grid_forget()
@@ -85,20 +87,23 @@ def get_user_ans(n):
 
     # user guesses
     for i in range(n):
-        prompt_response()
+        prompt_response(i, n)
         if correct_sequence[i] == user_ans:
             print("DING DING DING CORRECT!")
         else:
-            print(f"WRONG! correct position was [row, col]: {correct_sequence[1]}")
+            print(f"WRONG! Correct position was row = {correct_sequence[i][0]}, col = {correct_sequence[i][1]}")
         answered = False
 
-def prompt_response():
+def prompt_response(i, n):
     while not answered:
         lbl_prompt.configure(text="Please click a button")
         lbl_prompt.update()
         change_input_frame_state("normal")
     change_input_frame_state("disable")
-    lbl_prompt.configure(text="Moving on...")
+    if i == 4 and n == 5:
+        lbl_prompt.configure(text="Finished Game")
+    else:
+        lbl_prompt.configure(text="Moving on...")
     lbl_prompt.update()
 
 def check_ans(btn_num):
