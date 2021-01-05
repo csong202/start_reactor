@@ -7,28 +7,24 @@ from PIL import ImageTk, Image
 CURRENT PROBLEMS
 - cant quit after while play_game is running
 - blue does not disappear and reappear when same square is repeated in the sequence
+- disabling input frame during wrong_ans looks bad aesthetically
+- keeps calling wrong answer after restarting due to wrong answer
 
 TO DO
 - all prog lbls and input btns on right frame flash red (light grey, red, dark grey) when user is wrong
 - restart game if user is wrong (same sequence??)
 - restart game if user hits start (new sequence)
 - somehow add sound effects??
+- rename some functions (check_ans, get_user_ans)
 '''
 
 def reset_game():
-    reset_progR()
-    for i in range(len(progL_list)):
-        progL_list[i].configure(image=img_grey)
-        progL_list[i].update()
-
+    global user_ans
+    change_all_prog_lbls(img_grey)
+    user_ans = []
     for item in lbl_list:
         item.configure(image=img_black)
         item.update()
-
-def reset_progR():
-    for i in range(len(progR_list)):
-        progR_list[i].configure(image=img_grey)
-        progR_list[i].update()
 
 def choose_sequence():
     print("\n----NEW GAME----")
@@ -60,7 +56,7 @@ def display_solution(n):
     n = current iteration, 1 <= n < 6
     '''
     print(f"\nn = {n}")
-    reset_progR()
+    change_progR_lbls(img_grey)
     for i in range(n):  # 0 <= i < 5
         global x
         global y
@@ -85,8 +81,6 @@ def show_curr_sqr(x,y,img):
 def get_user_ans(n):
     '''
     n = current iteration, 1 <= n < 6
-    - undisable input_frame
-    - user clicks button
     '''
     global answered
 
@@ -97,6 +91,9 @@ def get_user_ans(n):
             print("CORRECT!")
         else:
             print(f"WRONG! Correct position was row = {correct_sequence[i][0]}, col = {correct_sequence[i][1]}")
+            # change_input_frame_state("normal")
+            wrong_ans()
+            # change_input_frame_state("disable")
         answered = False
         progR_list[i].configure(image=img_green)
         progR_list[i].update()
@@ -123,8 +120,24 @@ def check_ans(btn_num):
     global answered
     btn_pos = btn_num - 1
     user_ans = [img_positions[btn_pos][0], img_positions[btn_pos][1]]
-    # arr_response[img_positions[btn_pos][0]][img_positions[btn_pos][1]] = 1
     answered = True
+
+def wrong_ans():
+    change_progR_lbls(img_red_prog)
+    change_all_input_btns(img_red_btn)
+    time.sleep(0.5)
+    change_progR_lbls(img_lgrey_prog)
+    change_all_input_btns(img_lgrey_btn)
+    time.sleep(0.5)
+    change_progR_lbls(img_red_prog)
+    change_all_input_btns(img_red_btn)
+    time.sleep(0.5)
+    change_progR_lbls(img_grey)
+    change_all_input_btns(img_input_btn)
+    time.sleep(0.5)
+    lbl_prompt.configure(text="You failed :(")
+    lbl_prompt.update()
+    choose_sequence()
 
 def change_input_frame_state(new_state):
     global btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9
@@ -135,6 +148,23 @@ def change_input_frame_state(new_state):
 def change_prog_lbl(img, prog_lbl):
     prog_lbl.configure(image=img)
     prog_lbl.update()
+
+def change_progL_lbls(img):
+    for prog in progL_list:
+        change_prog_lbl(img, prog)
+
+def change_progR_lbls(img):
+    for prog in progR_list:
+        change_prog_lbl(img, prog)
+
+def change_all_prog_lbls(img):
+    change_progL_lbls(img)
+    change_progR_lbls(img)
+
+def change_all_input_btns(img):
+    for btn in btn_list:
+        btn.configure(image=img)
+        btn.update()
 
 def quit_game():
     btn_start.configure(state="disable")
@@ -184,7 +214,7 @@ img_blue = Image.open("images/blue-square.jpg")
 img_input_btn = Image.open("images/input_btn.jpg")
 img_green = Image.open("images/green-btn.jpg")
 img_grey = Image.open("images/grey-btn.jpg")
-img_red_prog = Image.open("images/red")
+img_red_prog = Image.open("images/red-circle.png")
 img_red_btn = Image.open("images/red-btn.png")
 img_lgrey_prog = Image.open("images/light-grey-circle.png")
 img_lgrey_btn = Image.open("images/light-grey-btn.png")
