@@ -8,20 +8,22 @@ CURRENT PROBLEMS
 - cant quit after while play_game is running
 - blue does not disappear and reappear when same square is repeated in the sequence
 - disabling input frame during wrong_ans looks bad aesthetically
-- keeps calling wrong answer after restarting due to wrong answer
 
 TO DO
 - all prog lbls and input btns on right frame flash red (light grey, red, dark grey) when user is wrong
 - restart game if user is wrong (same sequence??)
 - restart game if user hits start (new sequence)
 - somehow add sound effects??
+
+TO DO: Making code better
 - rename some functions (check_ans, get_user_ans)
 '''
 
 def reset_game():
-    global user_ans
+    global user_ans, answered
     change_all_prog_lbls(img_grey)
     user_ans = []
+    answered = False
     for item in lbl_list:
         item.configure(image=img_black)
         item.update()
@@ -91,6 +93,7 @@ def get_user_ans(n):
             print("CORRECT!")
         else:
             print(f"WRONG! Correct position was row = {correct_sequence[i][0]}, col = {correct_sequence[i][1]}")
+            print(f"Your answer was row = {user_ans[0]}, col = {user_ans[1]}")
             # change_input_frame_state("normal")
             wrong_ans()
             # change_input_frame_state("disable")
@@ -101,8 +104,7 @@ def get_user_ans(n):
 
 def prompt_response(i, n):
     while not answered:
-        lbl_prompt.configure(text="Please click a button")
-        lbl_prompt.update()
+        change_prompt_text("Please click a button")
         change_input_frame_state("normal")
     change_input_frame_state("disable")
     if i == 4 and n == 5:
@@ -135,13 +137,11 @@ def wrong_ans():
     change_progR_lbls(img_grey)
     change_all_input_btns(img_input_btn)
     time.sleep(0.5)
-    lbl_prompt.configure(text="You failed :(")
-    lbl_prompt.update()
-    choose_sequence()
+    change_prompt_text("You failed :(")
+    play_game()
 
 def change_input_frame_state(new_state):
     global btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9
-
     for child in btn_list:
         child.configure(state=new_state)
 
@@ -165,6 +165,10 @@ def change_all_input_btns(img):
     for btn in btn_list:
         btn.configure(image=img)
         btn.update()
+
+def change_prompt_text(new_text):
+    lbl_prompt.configure(text=new_text)
+    lbl_prompt.update()
 
 def quit_game():
     btn_start.configure(state="disable")
