@@ -53,7 +53,7 @@ def display_solution(n):
         show_curr_sqr(x,y,img_blue)
         # print("made image blue")
         time.sleep(1)
-        # show_curr_sqr(x,y,img_black)
+        show_curr_sqr(x,y,img_black)
 
 def show_curr_sqr(x,y,img):
     '''
@@ -68,6 +68,7 @@ def show_curr_sqr(x,y,img):
     curr_sqr.grid_forget()
     curr_sqr = Label(solution_frame, image=img, borderwidth=0)
     curr_sqr.grid(row=img_positions[curr_sqr_pos][0], column=img_positions[curr_sqr_pos][1])
+    # print(img)
 
 def play_game():
     for turn in range(1,6):
@@ -177,18 +178,18 @@ input_frame = LabelFrame(right_frame, text="", padx=5, pady=5, bg="#ACACAC", rel
 img_black = Image.open("images/black-square.jpg")
 img_blue = Image.open("images/blue-square.jpg")
 img_input_btn = Image.open("images/input_btn.jpg")
-img_green_btn = Image.open("images/green-btn.jpg")
-img_grey_btn = Image.open("images/grey-btn.jpg")
+img_green = Image.open("images/green-btn.jpg")
+img_grey = Image.open("images/grey-btn.jpg")
 img_black = img_black.resize((100, 100), Image.ANTIALIAS)
 img_blue = img_blue.resize((100, 100), Image.ANTIALIAS)
 img_input_btn = img_input_btn.resize((90, 90), Image.ANTIALIAS)
-img_green_btn = img_green_btn.resize((20, 20), Image.ANTIALIAS)
-img_grey_btn = img_grey_btn.resize((20, 20), Image.ANTIALIAS)
+img_green = img_green.resize((20, 20), Image.ANTIALIAS)
+img_grey = img_grey.resize((20, 20), Image.ANTIALIAS)
 img_black = ImageTk.PhotoImage(img_black)
 img_blue = ImageTk.PhotoImage(img_blue)
 img_input_btn = ImageTk.PhotoImage(img_input_btn)
-img_green_btn = ImageTk.PhotoImage(img_green_btn)
-img_grey_btn = ImageTk.PhotoImage(img_grey_btn)
+img_green = ImageTk.PhotoImage(img_green)
+img_grey = ImageTk.PhotoImage(img_grey)
 # labels for displaying pattern
 lbl_1 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_2 = Label(solution_frame, image=img_black, borderwidth=0)
@@ -210,23 +211,25 @@ btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, com
 btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(8))
 btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(9))
 # progress labels left
-prog_1L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
-prog_2L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
-prog_3L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
-prog_4L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
-prog_5L = Label(left_prog_frame, image=img_grey_btn, borderwidth=0)
+prog_1L = Label(left_prog_frame, image=img_grey, borderwidth=0)
+prog_2L = Label(left_prog_frame, image=img_grey, borderwidth=0)
+prog_3L = Label(left_prog_frame, image=img_grey, borderwidth=0)
+prog_4L = Label(left_prog_frame, image=img_grey, borderwidth=0)
+prog_5L = Label(left_prog_frame, image=img_grey, borderwidth=0)
 lbl_emptyL = Label(left_prog_frame, text="", bg="#ACACAC")
 # progress labels right
-prog_1R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
-prog_2R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
-prog_3R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
-prog_4R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
-prog_5R = Label(right_prog_frame, image=img_grey_btn, borderwidth=0)
+prog_1R = Label(right_prog_frame, image=img_grey, borderwidth=0)
+prog_2R = Label(right_prog_frame, image=img_grey, borderwidth=0)
+prog_3R = Label(right_prog_frame, image=img_grey, borderwidth=0)
+prog_4R = Label(right_prog_frame, image=img_grey, borderwidth=0)
+prog_5R = Label(right_prog_frame, image=img_grey, borderwidth=0)
 lbl_emptyR = Label(right_prog_frame, text="", bg="#ACACAC")
 
 # more global variables
 lbl_list = [lbl_1, lbl_2, lbl_3, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9]
 btn_list = [btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8, btn_9]
+progL_list = [prog_1L, prog_2L, prog_3L, prog_4L, prog_5L]
+progR_list = [prog_1R, prog_2R, prog_3R, prog_4R, prog_5R]
 
 # -------- DISPLAYING WIDGETS --------
 btn_start.grid(row=5, column=0)
