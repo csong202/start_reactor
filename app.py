@@ -6,12 +6,13 @@ from PIL import ImageTk, Image
 '''
 CURRENT PROBLEMS
 - cant quit after while play_game is running
-- doesnt show last green in progR for long enough
+- blue does not disappear and reappear when same square is repeated in the sequence
 
 TO DO
+- all prog lbls and input btns on right frame flash red (light grey, red, dark grey) when user is wrong
 - restart game if user is wrong (same sequence??)
-- blue squares flash red when player clicks incorrect button
 - restart game if user hits start (new sequence)
+- somehow add sound effects??
 '''
 
 def reset_game():
@@ -63,19 +64,12 @@ def display_solution(n):
     for i in range(n):  # 0 <= i < 5
         global x
         global y
-        '''
-        if statement to see which button in correct_sequence is being shown
-        use timer to set picture to img_blue
-        then back to img_black
-        '''
-
 
         x = correct_sequence[i][1]
         y = correct_sequence[i][0]
         print(f"i = {i}, x = {x}, y = {y}")
 
         show_curr_sqr(x,y,img_blue)
-        # print("made image blue")
         time.sleep(1)
         show_curr_sqr(x,y,img_black)
 
@@ -83,7 +77,6 @@ def show_curr_sqr(x,y,img):
     '''
     (int, int, image) -> None
     '''
-
     curr_sqr_pos = img_positions.index([y, x])  # 0 <= < 9
     curr_sqr = lbl_list[curr_sqr_pos]
     curr_sqr.configure(image=img)
@@ -100,13 +93,14 @@ def get_user_ans(n):
     # user guesses
     for i in range(n):
         prompt_response(i, n)
-        progR_list[i].configure(image=img_green)
-        progR_list[i].update()
         if correct_sequence[i] == user_ans:
-            print("DING DING DING CORRECT!")
+            print("CORRECT!")
         else:
             print(f"WRONG! Correct position was row = {correct_sequence[i][0]}, col = {correct_sequence[i][1]}")
         answered = False
+        progR_list[i].configure(image=img_green)
+        progR_list[i].update()
+        if i == n - 1: time.sleep(0.5)
 
 def prompt_response(i, n):
     while not answered:
