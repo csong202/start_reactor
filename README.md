@@ -1,2 +1,2 @@
-# memory_game
-Memory game based on the "Start Reactor" task in Among Us. Still a work in progress.
+# "Start Reactor" Task
+A detailed description of the game can be found [here](https://among-us.fandom.com/wiki/Start_Reactor#Overview)
