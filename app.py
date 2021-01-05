@@ -1,14 +1,12 @@
 import random
-import threading
 import time
 from tkinter import *
 from PIL import ImageTk, Image
 
 '''
 CURRENT PROBLEMS
-- doesn't show blue square for long enough
-- doesnt re display blue squares on next turn
 - cant quit after while play_game is running
+- doesnt show last green in progR for long enough
 
 TO DO
 - restart game if user is wrong (same sequence??)
@@ -16,7 +14,21 @@ TO DO
 - restart game if user hits start (new sequence)
 '''
 
-# function to choose random positions 
+def reset_game():
+    reset_progR()
+    for i in range(len(progL_list)):
+        progL_list[i].configure(image=img_grey)
+        progL_list[i].update()
+
+    for item in lbl_list:
+        item.configure(image=img_black)
+        item.update()
+
+def reset_progR():
+    for i in range(len(progR_list)):
+        progR_list[i].configure(image=img_grey)
+        progR_list[i].update()
+
 def choose_sequence():
     print("\n----NEW GAME----")
     for i in range(0,5):
@@ -32,11 +44,22 @@ def choose_sequence():
 
     play_game()
 
+def play_game():
+    reset_game()
+    for turn in range(1,6):
+        # display solution
+        change_prog_lbl(img_green, progL_list[turn-1])
+        display_solution(turn)
+
+        # prompt user for an answer
+        get_user_ans(turn)
+
 def display_solution(n):
     '''
     n = current iteration, 1 <= n < 6
     '''
     print(f"\nn = {n}")
+    reset_progR()
     for i in range(n):  # 0 <= i < 5
         global x
         global y
@@ -45,6 +68,7 @@ def display_solution(n):
         use timer to set picture to img_blue
         then back to img_black
         '''
+
 
         x = correct_sequence[i][1]
         y = correct_sequence[i][0]
@@ -59,24 +83,11 @@ def show_curr_sqr(x,y,img):
     '''
     (int, int, image) -> None
     '''
-    global lbl_1, lbl_2, lbl_4, lbl_4, lbl_5, lbl_6, lbl_7, lbl_8, lbl_9
 
     curr_sqr_pos = img_positions.index([y, x])  # 0 <= < 9
-    # if img == img_blue: print(f"curr_sqr_pos = {curr_sqr_pos}")
-
     curr_sqr = lbl_list[curr_sqr_pos]
-    curr_sqr.grid_forget()
-    curr_sqr = Label(solution_frame, image=img, borderwidth=0)
-    curr_sqr.grid(row=img_positions[curr_sqr_pos][0], column=img_positions[curr_sqr_pos][1])
-    # print(img)
-
-def play_game():
-    for turn in range(1,6):
-        # display solution
-        display_solution(turn)
-
-        # prompt user for an answer
-        get_user_ans(turn)
+    curr_sqr.configure(image=img)
+    curr_sqr.update()
 
 def get_user_ans(n):
     '''
@@ -89,6 +100,8 @@ def get_user_ans(n):
     # user guesses
     for i in range(n):
         prompt_response(i, n)
+        progR_list[i].configure(image=img_green)
+        progR_list[i].update()
         if correct_sequence[i] == user_ans:
             print("DING DING DING CORRECT!")
         else:
@@ -125,6 +138,10 @@ def change_input_frame_state(new_state):
     for child in btn_list:
         child.configure(state=new_state)
 
+def change_prog_lbl(img, prog_lbl):
+    prog_lbl.configure(image=img)
+    prog_lbl.update()
+
 def quit_game():
     btn_start.configure(state="disable")
     root.quit()
@@ -140,18 +157,11 @@ arr_correct = [
     [0, 0, 0],
     [0, 0, 0]
 ]
-arr_response = [
-    [0, 0, 0],
-    [0, 0, 0],
-    [0, 0, 0]
-]
 correct_sequence = [[],[],[],[],[]]
 x = 0
 y = 0
 correct_ans = []  # [row, col]
 user_ans = []  # [row, col]
-# curr_corr_seq = []
-# curr_user_seq = []
 answered = False
 
 ######################################
