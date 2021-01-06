@@ -9,7 +9,7 @@ CURRENT PROBLEMS
 - disabling input frame during wrong_ans looks bad aesthetically
 
 TO DO
-- dont disable input frame during wrong_ans, boolean that wont allow answer to be stored
+- dont disable input frame during wrong_ans, create boolean that wont allow answer to be stored
 Aesthetic
 - somehow set frame background to an image
 - space out progress lbls properly
@@ -22,10 +22,11 @@ TO DO: Making code better
 '''
 
 def reset_game():
-    global user_ans, answered
+    global user_ans, answered, answered_wrong
     change_all_prog_lbls(img_grey)
     user_ans = []
     answered = False
+    answered_wrong = False
     for item in lbl_list:
         item.configure(image=img_black)
         item.update()
@@ -33,9 +34,9 @@ def reset_game():
 def make_sequence():
     print("\n----NEW GAME----")
     for i in range(0,5):
-        row_correct = random.randint(0,2)
-        col_correct = random.randint(0,2)
-        correct_sequence[i] = [row_correct,col_correct]
+        row_correct = random.randint(0, 2)
+        col_correct = random.randint(0, 2)
+        correct_sequence[i] = [row_correct, col_correct]
         arr_correct[row_correct][col_correct] = 1
     
     for row in range(0,3):
@@ -56,7 +57,7 @@ def play_game():
         get_user_ans(turn)
         if answered_wrong: break
     print("/// YOU WIN ///")
-    change_prompt_text("Congrats! You succeeded!")
+    change_prompt_text("Congrats! You passed!")
 
 def display_solution(n):
     '''
@@ -65,9 +66,6 @@ def display_solution(n):
     print(f"\nn = {n}")
     change_progR_lbls(img_grey)
     for i in range(n):  # 0 <= i < 5
-        global x
-        global y
-
         x = correct_sequence[i][1]
         y = correct_sequence[i][0]
         print(f"i = {i}, x = {x}, y = {y}")
@@ -192,8 +190,7 @@ arr_correct = [
     [0, 0, 0]
 ]
 correct_sequence = [[],[],[],[],[]]
-x = 0
-y = 0
+
 correct_ans = []  # [row, col]
 user_ans = []  # [row, col]
 answered = False
