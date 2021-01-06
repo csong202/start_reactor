@@ -9,6 +9,7 @@ CURRENT PROBLEMS
 - disabling input frame during wrong_ans looks bad aesthetically
 
 TO DO
+- dont disable input frame during wrong_ans, boolean that wont allow answer to be stored
 Aesthetic
 - somehow set frame background to an image
 - space out progress lbls properly
@@ -17,7 +18,7 @@ Aesthetic
 - somehow add sound effects??
 
 TO DO: Making code better
-- rename some functions (check_ans, get_user_ans)
+
 '''
 
 def reset_game():
@@ -29,7 +30,7 @@ def reset_game():
         item.configure(image=img_black)
         item.update()
 
-def choose_sequence():
+def make_sequence():
     print("\n----NEW GAME----")
     for i in range(0,5):
         row_correct = random.randint(0,2)
@@ -53,6 +54,9 @@ def play_game():
 
         # prompt user for an answer
         get_user_ans(turn)
+        if answered_wrong: break
+    print("/// YOU WIN ///")
+    change_prompt_text("Congrats! You succeeded!")
 
 def display_solution(n):
     '''
@@ -85,7 +89,7 @@ def get_user_ans(n):
     '''
     n = current iteration, 1 <= n < 6
     '''
-    global answered
+    global answered, answered_wrong
 
     # user guesses
     for i in range(n):
@@ -98,6 +102,8 @@ def get_user_ans(n):
             # change_input_frame_state("normal")
             wrong_ans()
             # change_input_frame_state("disable")
+            answered_wrong = True
+            break
         answered = False
         progR_list[i].configure(image=img_green)
         progR_list[i].update()
@@ -114,7 +120,7 @@ def prompt_response(i, n):
         lbl_prompt.configure(text="Moving on...")
     lbl_prompt.update()
 
-def check_ans(btn_num):
+def store_ans(btn_num):
     '''
     btn_num range[1,9]
     btn_pos range[0,8]
@@ -191,6 +197,7 @@ y = 0
 correct_ans = []  # [row, col]
 user_ans = []  # [row, col]
 answered = False
+answered_wrong = False
 
 ######################################
 # SET UP TKINTER
@@ -202,7 +209,7 @@ root.geometry("1100x600")
 root.resizable(False, False)
 
 # ------- CREATING WIDGETS -----
-btn_start = Button(root, text="START", padx=12, pady=12, bg="#ACACAC", fg="black", command=choose_sequence)
+btn_start = Button(root, text="START", padx=12, pady=12, bg="#ACACAC", fg="black", command=make_sequence)
 btn_exit = Button(root, text="QUIT", padx=12, pady=12, bg="#ACACAC", fg="black", command=quit_game)
 lbl_prompt = Label(root, text="Welcome!", padx=12, pady=12)
 # frames
@@ -225,11 +232,11 @@ img_lgrey_btn = Image.open("images/light-grey-btn.png")
 img_black = img_black.resize((100, 100), Image.ANTIALIAS)
 img_blue = img_blue.resize((100, 100), Image.ANTIALIAS)
 img_input_btn = img_input_btn.resize((90, 90), Image.ANTIALIAS)
-img_green = img_green.resize((20, 20), Image.ANTIALIAS)
-img_grey = img_grey.resize((20, 20), Image.ANTIALIAS)
-img_red_prog = img_red_prog.resize((20, 20), Image.ANTIALIAS)
+img_green = img_green.resize((30, 30), Image.ANTIALIAS)
+img_grey = img_grey.resize((30, 30), Image.ANTIALIAS)
+img_red_prog = img_red_prog.resize((30, 30), Image.ANTIALIAS)
 img_red_btn = img_red_btn.resize((90, 90), Image.ANTIALIAS)
-img_lgrey_prog = img_lgrey_prog.resize((20, 20), Image.ANTIALIAS)
+img_lgrey_prog = img_lgrey_prog.resize((30, 30), Image.ANTIALIAS)
 img_lgrey_btn = img_lgrey_btn.resize((90, 90), Image.ANTIALIAS)
 img_black = ImageTk.PhotoImage(img_black)
 img_blue = ImageTk.PhotoImage(img_blue)
@@ -251,15 +258,15 @@ lbl_7 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_8 = Label(solution_frame, image=img_black, borderwidth=0)
 lbl_9 = Label(solution_frame, image=img_black, borderwidth=0)
 # buttons for entering solution
-btn_1 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(1))
-btn_2 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(2))
-btn_3 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(3))
-btn_4 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(4))
-btn_5 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(5))
-btn_6 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(6))
-btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(7))
-btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(8))
-btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: check_ans(9))
+btn_1 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(1))
+btn_2 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(2))
+btn_3 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(3))
+btn_4 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(4))
+btn_5 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(5))
+btn_6 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(6))
+btn_7 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(7))
+btn_8 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(8))
+btn_9 = Button(input_frame, image=img_input_btn, borderwidth=3, relief=FLAT, command=lambda: store_ans(9))
 # progress labels left
 prog_1L = Label(left_prog_frame, image=img_grey, borderwidth=0)
 prog_2L = Label(left_prog_frame, image=img_grey, borderwidth=0)
