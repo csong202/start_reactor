@@ -5,14 +5,15 @@ from PIL import ImageTk, Image
 
 '''
 CURRENT PROBLEMS
-- cant quit after while play_game is running
 - blue does not disappear and reappear when same square is repeated in the sequence
 - disabling input frame during wrong_ans looks bad aesthetically
 
 TO DO
-- all prog lbls and input btns on right frame flash red (light grey, red, dark grey) when user is wrong
-- restart game if user is wrong (same sequence??)
-- restart game if user hits start (new sequence)
+Aesthetic
+- somehow set frame background to an image
+- space out progress lbls properly
+- add pale border around solution_frame
+- fix the colour between btns to match the frame
 - somehow add sound effects??
 
 TO DO: Making code better
@@ -171,8 +172,7 @@ def change_prompt_text(new_text):
     lbl_prompt.update()
 
 def quit_game():
-    btn_start.configure(state="disable")
-    root.quit()
+    root.destroy()
 
 # ------ GLOBAL VARIABLES ---------
 img_positions = [  # [row, col]
